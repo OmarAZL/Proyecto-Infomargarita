@@ -27,6 +27,12 @@ function call($controller, $action){
 		case 'Ciudades': 
 		      $controller= new CiudadesController();
 		      break;
+		case 'SitiosHistoricos':
+			$controller = new SitiosHistoricosController();
+			break;
+		case 'TarifarioSH':
+			$controller = new TarifarioSHController();
+			break;
 	
 	}
 	$controller->{$action}();

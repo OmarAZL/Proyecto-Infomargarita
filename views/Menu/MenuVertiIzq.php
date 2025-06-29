@@ -31,7 +31,7 @@ diseño -->
                                 <tr>
                                     <td>
                                         <span class="glyphicon glyphicon-pencil text-primary" style="font-size:20px; color:blue"></span>
-                                        <a href="<?php echo SERVERURL?>Playas/ListarPlayas"> Palyas</a>
+                                        <a href="<?php echo SERVERURL?>Playas/ListarPlayas"> Playas</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -111,13 +111,13 @@ diseño -->
                                 <tr>
                                     <td>
                                         <span class="glyphicon glyphicon-pencil text-primary" style="font-size:20px; color:blue"></span>
-                                        <a href="<?php echo SERVERURL?>Sitios/ListarSitios"> Sitios Históricos</a>
+                                        <a href="<?php echo SERVERURL?>SitiosHistoricos/ListarSitiosHistoricos"> Sitios Históricos</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <span class="glyphicon glyphicon-pencil text-primary" style="font-size:20px; color:blue"></span>
-                                        <a href="<?php echo SERVERURL?>TarifarioSitios/ListarTarifarioSitios"> Tarifario Sitios</a>
+                                        <a href="<?php echo SERVERURL?>TarifarioSH/ListarTarifarioSH"> Tarifario Sitios</a>
                                     </td>
                                 </tr>
                             </table>
