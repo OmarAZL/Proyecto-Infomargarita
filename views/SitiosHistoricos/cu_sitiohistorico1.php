@@ -5,12 +5,14 @@ if (isset($_SESSION['User']) == 1)
     $router = new Router();
     $action = $router->getAction();
 
-    $id_sitiohistorico = $_POST['id_sitiohistorico'];
-    $nombre_sitio = $_POST['nombre_sitio'];
-    $fecha_sitio = $_POST['fecha_sitio'];
-    $historia_sitio = $_POST['historia_sitio'];
-    $id_parroquia = $_POST['id_parroquia'];
-    $id_ciudad = $_POST['id_ciudad'];
+    // Primero se valida que los datos existen en $_POST antes de usarlos
+
+    $id_sitiohistorico = isset($_POST['id_sitiohistorico']) ? $_POST['id_sitiohistorico'] : '';
+    $nombre_sitio = isset($_POST['nombre_sitio']) ? $_POST['nombre_sitio'] : '';
+    $fecha_sitio = isset($_POST['fecha_sitio']) ? $_POST['fecha_sitio'] : '';
+    $historia_sitio = isset($_POST['historia_sitio']) ? $_POST['historia_sitio'] : '';
+    $id_parroquia = isset($_POST['id_parroquia']) ? $_POST['id_parroquia'] : '';
+    $id_ciudad = isset($_POST['id_ciudad']) ? $_POST['id_ciudad'] : '';
 
     require_once('controllers/SitiosHistoricosController.php');
     $controller = new SitiosHistoricosController();
@@ -27,14 +29,17 @@ if (isset($_SESSION['User']) == 1)
         <div class="my-1"></div>
         <div class="alert alert-warning alert-dismissable" align="justify">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>¡Advertencia!</strong> Ocurrió un error en la operación.
+            <label for="busqueda" align="right"> <strong>Mensaje de Advertencia</strong><br> 
+	   		<p style="font-size:12px; color:black"><?php echo MSG_ADVERTENCIA_CU?> </p> </label> <br>
         </div>
         <?php require_once('views/SitiosHistoricos/cu_sitiohistorico.php');
     } else { ?>
         <div class="my-1"></div>
         <div class="alert alert-success alert-dismissable" align="justify">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>¡Éxito!</strong> La operación se realizó correctamente.
+            <label for="busqueda" align="right"> <strong>Mensaje de Éxito</strong> <br> 
+            <p style="font-size:12px; color:black">El registro de la Parroquia <?php echo MSG_EXITO_CU?></p> </label> <br>
+                    
         </div>
         <?php require_once('views/SitiosHistoricos/listarsitioshistoricos.php');
     }

@@ -3,16 +3,18 @@ if (isset($_SESSION['User'])) {
     $router = new Router();
     $action = $router->getAction();
     $id = $router->getId();
+    $id_sitiohistorico = "";
     $nombre_sitio = "";
     $fecha_sitio = "";
     $historia_sitio = "";
     $id_parroquia = "";
     $id_ciudad = "";
+    $TipoOperacion = "";
+    $direccionamiento = "";
 
     if ($action == "IngresarSitioHistorico") {
         $TipoOperacion = "Ingresar";
         $direccionamiento = SERVERURL . "SitiosHistoricos/IngresarSitioHistorico1";
-        $id_sitiohistorico = "";
         require_once('controllers/SitiosHistoricosController.php');
         $controller = new SitiosHistoricosController();
         $result_sitio = $controller->BuscarUltimoSitioHistorico();
@@ -37,16 +39,45 @@ if (isset($_SESSION['User'])) {
             $numrows = mysqli_num_rows($result_sitio);
             if ($numrows != 0) {
                 while ($numrows = mysqli_fetch_array($result_sitio)) {
-                    $id_sitiohistorico = $numrows["id_sitiohistorico"];
-                    $nombre_sitio = $numrows['nombre_sitio'];
-                    $fecha_sitio = $numrows['fecha_sitio'];
-                    $historia_sitio = $numrows['historia_sitio'];
-                    $id_parroquia = $numrows['id_parroquia'];
-                    $id_ciudad = $numrows['id_ciudad'];
+                    $id_sitiohistorico = $numrows["id_SitiosHistoricos"];
+                    $nombre_sitio = $numrows['Nombre_Sitio'];
+                    $fecha_sitio = $numrows['fecha_creacion'];
+                    $historia_sitio = $numrows['Historia'];
+                    $id_parroquia = $numrows['CodParroquia'];
+                    $id_ciudad = $numrows['CodCiudad'];
                 }
             }
         }
-    }
+    }elseif (($action == "IngresarSitioHistorico1") OR ($action == "ActualizarSitioHistorico1") OR ($action == "BorrarSitioHistorico1"))// Es porque hubo un error al ingresar o actualizar y hay que mantener los datos en pantalla
+   {  
+   
+      if (isset($_POST['nombre_sitio']) ==1) 
+      {  
+            $id_sitiohistorico = $_POST['id_sitiohistorico'];
+            $nombre_sitio = $_POST['nombre_sitio'];
+            $fecha_sitio = $_POST['fecha_sitio'];
+            $historia_sitio = $_POST['historia_sitio'];
+            $id_parroquia = $_POST['id_parroquia'];
+            $id_ciudad = $_POST['id_ciudad'];
+       }
+  
+      if ($action == "IngresarSitioHistorico1") { // Cuando el error ocurrion cuando ingresaba
+      
+          $TipoOperacion = "Ingresar";
+          $direccionamiento = SERVERURL . "SitiosHistoricos/IngresarSitioHistorico1";
+
+      }elseif ($action == "ActualizarSitioHistorico1") { // Cuando el error ocurrio cuando actualizaba
+
+          $TipoOperacion = "Actualizar";
+          $direccionamiento = SERVERURL . "SitiosHistoricos/ActualizarSitioHistorico1";
+      
+      }elseif ($action == "BorrarSitioHistorico1") { // Cuando el error ocurrio cuando eliminaba
+          $TipoOperacion = "Borrar";
+          $direccionamiento = SERVERURL . "SitiosHistoricos/BorrarSitioHistorico1";
+      }
+
+   }
+     
 ?>
 
 <div class="panel-heading" style="background-color: #2F5597">

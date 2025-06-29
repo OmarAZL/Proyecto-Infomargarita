@@ -32,7 +32,7 @@ if (isset($_SESSION['User']) == 1)
           
        }
 
-   }elseif (($action == "ActualizarParroquia") OR ($action == "BorrarParroquia")) // Es porque viene por actualizacion
+   } elseif (($action == "ActualizarParroquia") OR ($action == "BorrarParroquia")) // Es porque viene por actualizacion
    {
           if ($action == "ActualizarParroquia") {
              $TipoOperacion = "Actualizar";
