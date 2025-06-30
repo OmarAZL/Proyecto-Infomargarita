@@ -36,13 +36,40 @@ if (isset($_SESSION['User'])) {
             if ($numrows != 0) {
                 while ($numrows = mysqli_fetch_array($result_tarifario)) {
                     $id_tarifariosh = $numrows["id_tarifariosh"];
-                    $tarifario = $numrows['descripciontf '];
+                    $tarifario = $numrows['descripciontf'];
                     $monto = $numrows['Montotf'];
-                    $id_sitiohistorico = $numrows['id_sitiohistorico'];
+                    $id_sitiohistorico = $numrows['id_Sitiohistorico'];
                 }
             }
         }
-    }
+    }elseif (($action == "IngresarTarifa1") OR ($action == "ActualizarTarifa1") OR ($action == "BorrarTarifa1"))// Es porque hubo un error al ingresar o actualizar y hay que mantener los datos en pantalla
+   {  
+   
+      if (isset($_POST['descripciontf']) ==1) 
+      {  
+            $id_tarifariosh = $numrows["id_tarifariosh"];
+            $tarifario = $numrows['descripciontf'];
+            $monto = $numrows['Montotf'];
+            $id_sitiohistorico = $numrows['id_Sitiohistorico'];
+       }
+  
+      if ($action == "IngresarTarifa1") { // Cuando el error ocurrion cuando ingresaba
+      
+          $TipoOperacion = "Ingresar";
+          $direccionamiento = SERVERURL . "TarifarioSH/IngresarTarifa1";
+
+      }elseif ($action == "ActualizarTarifa1") { // Cuando el error ocurrio cuando actualizaba
+
+          $TipoOperacion = "Actualizar";
+          $direccionamiento = SERVERURL . "TarifarioSH/ActualizarTarifa1";
+      
+      }elseif ($action == "BorrarTarifa1") { // Cuando el error ocurrio cuando eliminaba
+          $TipoOperacion = "Borrar";
+          $direccionamiento = SERVERURL . "TarifarioSH/BorrarTarifa1";
+      }
+
+   }
+     
 ?>
 
 <div class="panel-heading" style =" background-color: #2F5597">
