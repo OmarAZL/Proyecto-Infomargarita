@@ -2,6 +2,7 @@
 if (isset($_SESSION['User'])) { 
     $router = new Router();
     $action = $router->getAction();
+
     $id = $router->getId();
     $id_sitiohistorico = "";
     $nombre_sitio = "";
@@ -88,6 +89,13 @@ if (isset($_SESSION['User'])) {
     </div>
 </div>
 
+<?php
+    require_once('controllers/ParroquiasController.php');
+    require_once('controllers/CiudadesController.php');
+    $parroquias = ParroquiasController::ListarParroquias1();
+    $ciudades = CiudadesController::ListarCiudades1();
+?>
+
 <div class="page-content">
     <form action="<?php echo $direccionamiento;?>" method="POST">
         <div class="alert" style="background-color: #F9F9F9">
@@ -109,13 +117,33 @@ if (isset($_SESSION['User'])) {
                     <label for="historia_sitio"><b>Historia:</b></label>
                     <input class="form-control" type="text" name="historia_sitio" value="<?php echo $historia_sitio;?>" required>
                 </div>
-                <div class="col-1">
+                <div class="col-4">
                     <label for="id_parroquia"><b>Parroquia:</b></label>
-                    <input class="form-control" type="text" name="id_parroquia" value="<?php echo $id_parroquia;?>" required>
+                    <select class="form-control" name ="id_parroquia" id="cbx_parroquia" required>
+                        <option value ="">Elija una opcion</option>
+                        <?php
+                            if ($parroquias) {
+                                while ($row = mysqli_fetch_assoc($parroquias)) {
+                                    $selected = ($id_parroquia == $row['Cod_Parroquia']) ? 'selected' : '';
+                                    echo "<option value='{$row['Cod_Parroquia']}' data-estado='{$row['Cod_Estado']}' $selected>{$row['Des_Parroquia']}</option>";
+                                }
+                            }
+                        ?>
+                    </select>
                 </div>
-                <div class="col-2">
+                <div class="col-4">
                     <label for="id_ciudad"><b>Ciudad:</b></label>
-                    <input class="form-control" type="text" name="id_ciudad" value="<?php echo $id_ciudad;?>" required>
+                    <select class="form-control" name ="id_ciudad" id="cbx_ciudad" required>
+                        <option value ="">Elija una opcion</option>
+                        <?php
+                            if ($ciudades) {
+                                while ($row = mysqli_fetch_assoc($ciudades)) {
+                                    $selected = ($id_ciudad == $row['Cod_Ciudad']) ? 'selected' : '';
+                                    echo "<option value='{$row['Cod_Ciudad']}' data-estado='{$row['Cod_Estado']}' $selected>{$row['Des_Ciudad']}</option>";
+                                }
+                            }
+                        ?>
+                    </select>
                 </div>
             </div>
             <br><br>

@@ -38,10 +38,11 @@ if (isset($_SESSION['User']) == 1)
         <div class="alert alert-success alert-dismissable" align="justify">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <label for="busqueda" align="right"> <strong>Mensaje de Éxito</strong> <br> 
-            <p style="font-size:12px; color:black">El registro de la Parroquia <?php echo MSG_EXITO_CU?></p> </label> <br>
+            <p style="font-size:12px; color:black">El registro del sitio historico <?php echo MSG_EXITO_CU?></p> </label> <br>
                     
         </div>
-        <?php require_once('views/SitiosHistoricos/listarsitioshistoricos.php');
+        <?php
+        require_once('views/SitiosHistoricos/listarsitioshistoricos.php');
     }
 } else {
     require_once('views/SitiosHistoricos/listarsitioshistoricos.php');
