@@ -3,6 +3,7 @@ if (isset($_SESSION['User'])) {
     $router = new Router();
     $action = $router->getAction();
     $id = $router->getId();
+    $id_tarifariosh = "";
     $tarifario = "";
     $monto = "";
     $id_sitiohistorico = "";
@@ -10,7 +11,6 @@ if (isset($_SESSION['User'])) {
     if ($action == "IngresarTarifa") {
         $TipoOperacion = "Ingresar";
         $direccionamiento = SERVERURL . "TarifarioSH/IngresarTarifa1";
-        $id_tarifariosh = "";
         require_once('controllers/TarifarioSHController.php');
         $controller = new TarifarioSHController();
         $result_tarifario = $controller->BuscarUltimoTarifario();
@@ -36,8 +36,8 @@ if (isset($_SESSION['User'])) {
             if ($numrows != 0) {
                 while ($numrows = mysqli_fetch_array($result_tarifario)) {
                     $id_tarifariosh = $numrows["id_tarifariosh"];
-                    $tarifario = $numrows['tarifario'];
-                    $monto = $numrows['monto'];
+                    $tarifario = $numrows['descripciontf '];
+                    $monto = $numrows['Montotf'];
                     $id_sitiohistorico = $numrows['id_sitiohistorico'];
                 }
             }

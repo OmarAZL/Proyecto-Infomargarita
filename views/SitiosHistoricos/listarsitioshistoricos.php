@@ -2,7 +2,10 @@
    require_once('controllers/SitiosHistoricosController.php');
    $controller = new SitiosHistoricosController();
    $result_sitios = $controller->ListarSitiosHistoricos1();
-   $numrows = mysqli_num_rows($result_sitios);
+   $numrows = 0;
+   if($result_sitios) {
+        $numrows = mysqli_num_rows($result_sitios);
+    }
 ?>
 
 <div class="contaniner">

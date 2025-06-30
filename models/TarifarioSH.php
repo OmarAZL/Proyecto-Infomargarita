@@ -66,9 +66,12 @@ class TarifarioSHModel
 	
 
 	public static function ListarTarifarioSH(){
-		$sql_TarifarioSH = "SELECT * FROM tbl_tarifariosh ORDER BY id_tarifariosh asc";
-        $result_TarifarioSH = TarifarioSHModel::Get_Data($sql_TarifarioSH);
-        return $result_TarifarioSH;
+		//$sql_TarifarioSH = "SELECT * FROM tbl_tarifariosh ORDER BY id_tarifariosh asc";
+        $sql_TarifarioSH = "SELECT `tbl_tarifariosh`.*, `tbl_sitioshistoricos`.`Nombre_Sitio`
+							FROM `tbl_tarifariosh` 
+							LEFT JOIN `tbl_sitioshistoricos` ON `tbl_tarifariosh`.`id_Sitiohistorico` = `tbl_sitioshistoricos`.`id_SitiosHistoricos`;";
+		$result_TarifarioSH = TarifarioSHModel::Get_Data($sql_TarifarioSH);
+        return $result_TarifarioSH; 
 	}
 
 	public static function ListarTarifarioSHByNombre(){

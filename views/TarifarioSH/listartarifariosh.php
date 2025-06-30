@@ -2,7 +2,10 @@
    require_once('controllers/TarifarioSHController.php');
    $controller= new TarifarioSHController();
    $result_tarifario= $controller->ListarTarifarioSH1();
-   $numrows = mysqli_num_rows($result_tarifario);
+   $numrows = 0;
+   if($result_tarifario){
+    $numrows = mysqli_num_rows($result_tarifario);
+   } 
 ?>
 
 <div class="contaniner">
@@ -28,9 +31,10 @@
             <tr>
                 <th>ID</th>
                 <th>Tarifario</th>
-                <th>Monto</th>
+                <th>Monto Bs.</th>
                 <th>Sitio Histórico</th>
-                <th>Acciones</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -41,16 +45,16 @@
                 <tr>
                     <td><?php echo $row['id_tarifariosh']; ?></td>
                     <td><?php echo $row['descripciontf']; ?></td>
-                    <td><?php echo $row['Montotf']; ?></td>
-                    <td><?php echo $row['id_Sitiohistorico']; ?></td>
-                    <td>
-                        <form action="<?php echo SERVERURL?>TarifarioSH/ActualizarTarifa" method="POST" style="display:inline;">
-                            <input type="hidden" name="id_tarifariosh" value="<?php echo $row['id_tarifariosh']; ?>">
-                            <button type="submit" class="btn btn-warning btn-xs">Editar</button>
+                    <td><?php echo $row['Montotf']; ?> Bs</td>
+                    <td><?php echo $row['Nombre_Sitio']; ?></td>
+                    <td align= "center" width="50px">
+                        <form action="<?php echo SERVERURL?>TarifarioSH/ActualizarTarifa/<?php echo $row['id_tarifariosh']; ?>" method="POST" style="display:inline;">
+                             <button type="submit" class="btn btn-sm btn-success">Editar</button>
                         </form>
-                        <form action="<?php echo SERVERURL?>TarifarioSH/BorrarTarifa" method="POST" style="display:inline;">
-                            <input type="hidden" name="id_tarifariosh" value="<?php echo $row['id_tarifariosh']; ?>">
-                            <button type="submit" class="btn btn-danger btn-xs">Borrar</button>
+                    </td>
+                    <td align= "center" width="50px">
+                        <form action="<?php echo SERVERURL?>TarifarioSH/BorrarTarifa/<?php echo $row['id_tarifariosh']; ?>" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-warning">Borrar</button>
                         </form>
                     </td>
                 </tr>
