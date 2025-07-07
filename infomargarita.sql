@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3308
--- Tiempo de generación: 27-06-2025 a las 01:11:02
+-- Servidor: 127.0.0.1:3306
+-- Tiempo de generación: 07-07-2025 a las 01:05:24
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.3.14
 
@@ -2133,7 +2133,8 @@ INSERT INTO `tbl_parroquia` (`Cod_Parroquia`, `Cod_Municipio`, `Des_Parroquia`) 
 (1137, 462, 'Sucre (Catia)'),
 (1138, 462, '23 de enero'),
 (1139, 281, 'Cruz Jose Reyes Vasquez'),
-(1140, 1, 'Sistemas Geograficos');
+(1140, 1, 'Sistemas Geograficos'),
+(1141, 281, 'La California Sur');
 
 -- --------------------------------------------------------
 
@@ -2147,19 +2148,20 @@ CREATE TABLE IF NOT EXISTS `tbl_sitioshistoricos` (
   `Nombre_Sitio` text CHARACTER SET utf16 COLLATE utf16_spanish_ci NOT NULL,
   `fecha_creacion` date NOT NULL,
   `Historia` text CHARACTER SET utf16 COLLATE utf16_spanish_ci NOT NULL,
+  `imagen` varchar(255) NOT NULL,
   `CodCiudad` int NOT NULL,
   `CodParroquia` int NOT NULL,
   PRIMARY KEY (`id_SitiosHistoricos`),
   KEY `CodCiudad` (`CodCiudad`),
   KEY `CodParroquia` (`CodParroquia`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `tbl_sitioshistoricos`
 --
 
-INSERT INTO `tbl_sitioshistoricos` (`id_SitiosHistoricos`, `Nombre_Sitio`, `fecha_creacion`, `Historia`, `CodCiudad`, `CodParroquia`) VALUES
-(1, 'Castillo San Carlos de Borromeo', '1684-01-01', 'El Castillo San Carlos de Borromeo es una fortaleza colonial ubicada en la Bahía de Pampatar, en la Isla Margarita, Venezuela. Fue construida para proteger la zona de los ataques de piratas y corsarios. Se completó en 1684, después de haber sido destruida y reconstruida. Hoy en día, funciona como museo y es un importante atractivo turístico. ', 330, 709);
+INSERT INTO `tbl_sitioshistoricos` (`id_SitiosHistoricos`, `Nombre_Sitio`, `fecha_creacion`, `Historia`, `imagen`, `CodCiudad`, `CodParroquia`) VALUES
+(1, 'Castillo San Carlos de Borromeo', '1684-01-01', 'El Castillo San Carlos de Borromeo es una fortaleza colonial ubicada en la Bahía de Pampatar, en la Isla Margarita, Venezuela. Fue construida para proteger la zona de los ataques de piratas y corsarios. Se completó en 1684, después de haber sido destruida y reconstruida. Hoy en día, funciona como museo y es un importante atractivo turístico. ', '', 330, 709);
 
 -- --------------------------------------------------------
 
@@ -2175,7 +2177,7 @@ CREATE TABLE IF NOT EXISTS `tbl_tarifariosh` (
   `id_Sitiohistorico` int NOT NULL,
   PRIMARY KEY (`id_tarifariosh`),
   KEY `id_Sitiohistorico` (`id_Sitiohistorico`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Restricciones para tablas volcadas

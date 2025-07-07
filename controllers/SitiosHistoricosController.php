@@ -26,6 +26,32 @@ class SitiosHistoricosController
          return $result_Listar;
     }
 
+    static public function buscarParroquiasPorEstado($cod_estado) {
+          require_once('controllers/ParroquiasController.php');
+          require_once('controllers/MunicipiosController.php');
+
+          $parroquias = ParroquiasController::ListarParroquias1();
+          $municipios = MunicipiosController::ListarMunicipios1();
+
+          // Paso 1: Obtener los códigos de municipio que pertenecen al estado
+          $municipios_ids = [];
+          while ($row = $municipios->fetch_assoc()) {
+               if ($row['Cod_Estado'] == $cod_estado) {
+                    $municipios_ids[$row['Cod_Municipio']] = true;
+               }
+          }
+
+          // Paso 2: Filtrar parroquias que pertenezcan a esos municipios
+          $parroquias_array = [];
+          while ($row = $parroquias->fetch_assoc()) {
+               if (isset($municipios_ids[$row['Cod_Municipio']])) {
+                    $parroquias_array[] = $row;
+               }
+          }
+
+          return $parroquias_array;
+     }
+
     function IngresarSitioHistorico(){
          require_once('views/SitiosHistoricos/cu_sitiohistorico.php');
     }
@@ -34,9 +60,9 @@ class SitiosHistoricosController
          require_once('views/SitiosHistoricos/cu_sitiohistorico1.php');
     }
 
-    static public function IngresarSitioHistorico2($id_SitiosHistoricos, $nombre_sitio, $fecha_sitio, $Historia_Sitio, $id_parroquia, $id_ciudad){
+    static public function IngresarSitioHistorico2($id_SitiosHistoricos, $nombre_sitio, $fecha_sitio, $Historia_Sitio, $imagen, $id_parroquia, $id_ciudad){
       	 require_once('models/SitiosHistoricosModels.php');
-         $result_Listar= SitiosHistoricosModels::IngresarSitioHistorico2($id_SitiosHistoricos, $nombre_sitio, $fecha_sitio, $Historia_Sitio, $id_parroquia, $id_ciudad);
+         $result_Listar= SitiosHistoricosModels::IngresarSitioHistorico2($id_SitiosHistoricos, $nombre_sitio, $fecha_sitio, $Historia_Sitio, $imagen, $id_parroquia, $id_ciudad);
          return $result_Listar;
     }
 
@@ -68,9 +94,9 @@ class SitiosHistoricosController
          require_once('views/SitiosHistoricos/cu_sitiohistorico1.php');
     }
 
-    static public function ActualizarSitioHistorico2($id_SitiosHistoricos, $nombre_sitio, $fecha_sitio, $Historia_Sitio, $id_parroquia, $id_ciudad){
+    static public function ActualizarSitioHistorico2($id_SitiosHistoricos, $nombre_sitio, $fecha_sitio, $Historia_Sitio, $imagen, $id_parroquia, $id_ciudad){
       	 require_once('models/SitiosHistoricosModels.php');
-         $result_Listar= SitiosHistoricosModels::ActualizarSitioHistorico2($id_SitiosHistoricos, $nombre_sitio, $fecha_sitio, $Historia_Sitio, $id_parroquia, $id_ciudad);
+         $result_Listar= SitiosHistoricosModels::ActualizarSitioHistorico2($id_SitiosHistoricos, $nombre_sitio, $fecha_sitio, $Historia_Sitio, $imagen, $id_parroquia, $id_ciudad);
          return $result_Listar;
     }
 

@@ -65,7 +65,7 @@ class MunicipiosModel
 	
 
 	public static function ListarMunicipios(){
-		$sql_Municipio = "SELECT Cod_Municipio, Des_Estado, Des_Municipio FROM tbl_municipio AS M, tbl_estado AS E WHERE M.Cod_Estado = E.Cod_Estado";
+		$sql_Municipio = "SELECT * FROM tbl_municipio AS M, tbl_estado AS E WHERE M.Cod_Estado = E.Cod_Estado";
         $result_Municipio = MunicipiosModel::Get_Data($sql_Municipio);
         return $result_Municipio;
 	}

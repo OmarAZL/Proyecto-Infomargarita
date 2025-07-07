@@ -18,9 +18,9 @@ if (isset($_SESSION['User']) == 1)
     $controller = new SitiosHistoricosController();
 
     if ($action == "IngresarSitioHistorico1") {
-        $result_Sitio = $controller->IngresarSitioHistorico2($id_sitiohistorico, $nombre_sitio, $fecha_sitio, $historia_sitio, $id_parroquia, $id_ciudad);
+        $result_Sitio = $controller->IngresarSitioHistorico2($id_sitiohistorico, $nombre_sitio, $fecha_sitio, $historia_sitio, "", $id_parroquia, $id_ciudad);
     } elseif ($action == "ActualizarSitioHistorico1") {
-        $result_Sitio = $controller->ActualizarSitioHistorico2($id_sitiohistorico, $nombre_sitio, $fecha_sitio, $historia_sitio, $id_parroquia, $id_ciudad);
+        $result_Sitio = $controller->ActualizarSitioHistorico2($id_sitiohistorico, $nombre_sitio, $fecha_sitio, $historia_sitio, "", $id_parroquia, $id_ciudad);
     } elseif ($action == "BorrarSitioHistorico1") {
         $result_Sitio = $controller->BorrarSitioHistorico2($id_sitiohistorico);
     }

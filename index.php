@@ -1,5 +1,19 @@
 <?php 
+// 👇 Este bloque debe ir antes de cualquier HTML o echo
+if (isset($_GET['accion']) && $_GET['accion'] === 'buscar_parroquias') {
+    require_once('controllers/ParroquiasController.php');
+    require_once('controllers/MunicipiosController.php');
+    require_once('controllers/SitiosHistoricosController.php'); // donde está buscarParroquiasPorEstado
 
+    $cod_estado = $_GET['cod_estado'] ?? null;
+
+    if ($cod_estado) {
+        $parroquias = SitiosHistoricosController::buscarParroquiasPorEstado($cod_estado);
+        header('Content-Type: application/json');
+        echo json_encode($parroquias);
+        exit; // 👈 Esto evita que se imprima el resto del HTML
+    }
+}
   // Este es el primer archivo visible que se inicia cuando se abre el proyecto desde el navegador.
 
   // Esta seccion borra e inicia cierta variable de sesión, dado que el control de acceso a usuarios lo suprimí para la práctica

@@ -17,12 +17,6 @@ class MunicipiosController
          $result_Listar= MunicipiosModel::ListarMunicipios();
          return $result_Listar;
 	}
-	
-	static public function ListarMunicipioByNombre(){
-	   	 require_once('models/MunicipiosModel.php');
-         $result_Listar= MunicipiosModel::ListarMunicipioByNombre();
-         return $result_Listar;
-	}
 
     // Para insertar
 

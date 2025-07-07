@@ -1,4 +1,20 @@
 <?php
+
+ if (isset($_GET['accion']) && $_GET['accion'] === 'buscar_parroquias') {
+    require_once('controllers/ParroquiasController.php');
+    require_once('controllers/MunicipiosController.php');
+    require_once('controllers/SitiosHistoricosController.php'); // donde está buscarParroquiasPorEstado
+
+    $cod_estado = $_GET['cod_estado'] ?? null;
+
+    if ($cod_estado) {
+        $parroquias = SitiosHistoricosController::buscarParroquiasPorEstado($cod_estado);
+        header('Content-Type: application/json');
+        echo json_encode($parroquias);
+        exit; // 👈 Esto es clave: evita que se siga ejecutando el HTML
+    }
+}
+
 if (isset($_SESSION['User'])) { 
     $router = new Router();
     $action = $router->getAction();
@@ -10,6 +26,7 @@ if (isset($_SESSION['User'])) {
     $historia_sitio = "";
     $id_parroquia = "";
     $id_ciudad = "";
+    $id_estado = "";
     $TipoOperacion = "";
     $direccionamiento = "";
 
@@ -58,6 +75,7 @@ if (isset($_SESSION['User'])) {
             $nombre_sitio = $_POST['nombre_sitio'];
             $fecha_sitio = $_POST['fecha_sitio'];
             $historia_sitio = $_POST['historia_sitio'];
+            $id_estado = $_POST['id_estado'];
             $id_parroquia = $_POST['id_parroquia'];
             $id_ciudad = $_POST['id_ciudad'];
        }
@@ -90,10 +108,18 @@ if (isset($_SESSION['User'])) {
 </div>
 
 <?php
-    require_once('controllers/ParroquiasController.php');
     require_once('controllers/CiudadesController.php');
-    $parroquias = ParroquiasController::ListarParroquias1();
+    require_once('controllers/EstadosController.php');
+    require_once('controllers/ParroquiasController.php');
     $ciudades = CiudadesController::ListarCiudades1();
+    $estados = EstadosController::ListarEstados1();
+
+    $ciudades_agrupados = [];
+    while ($row = $ciudades->fetch_assoc()) {
+        $ciudades_agrupados[$row['Cod_Estado']][] = $row;
+    }
+
+
 ?>
 
 <div class="page-content">
@@ -118,14 +144,14 @@ if (isset($_SESSION['User'])) {
                     <input class="form-control" type="text" name="historia_sitio" value="<?php echo $historia_sitio;?>" required>
                 </div>
                 <div class="col-4">
-                    <label for="id_parroquia"><b>Parroquia:</b></label>
-                    <select class="form-control" name ="id_parroquia" id="cbx_parroquia" required>
-                        <option value ="">Elija una opcion</option>
+                    <label for="id_estado"><b>Estado:</b></label>
+                    <select class="form-control" name ="id_estado" id="cbx_estado" onchange="cargarDatos()">
+                        <option value ="">-- Selecciona un estado --</option>
                         <?php
-                            if ($parroquias) {
-                                while ($row = mysqli_fetch_assoc($parroquias)) {
-                                    $selected = ($id_parroquia == $row['Cod_Parroquia']) ? 'selected' : '';
-                                    echo "<option value='{$row['Cod_Parroquia']}' data-estado='{$row['Cod_Estado']}' $selected>{$row['Des_Parroquia']}</option>";
+                            if ($estados) {
+                                while ($row = mysqli_fetch_assoc($estados)) {
+                                    $selected = ($id_estado == $row['Cod_Estado']) ? 'selected' : '';
+                                    echo "<option value='{$row['Cod_Estado']}' data-estado='{$row['Cod_Estado']}' $selected>{$row['Des_Estado']}</option>";
                                 }
                             }
                         ?>
@@ -134,15 +160,13 @@ if (isset($_SESSION['User'])) {
                 <div class="col-4">
                     <label for="id_ciudad"><b>Ciudad:</b></label>
                     <select class="form-control" name ="id_ciudad" id="cbx_ciudad" required>
-                        <option value ="">Elija una opcion</option>
-                        <?php
-                            if ($ciudades) {
-                                while ($row = mysqli_fetch_assoc($ciudades)) {
-                                    $selected = ($id_ciudad == $row['Cod_Ciudad']) ? 'selected' : '';
-                                    echo "<option value='{$row['Cod_Ciudad']}' data-estado='{$row['Cod_Estado']}' $selected>{$row['Des_Ciudad']}</option>";
-                                }
-                            }
-                        ?>
+                        <option value ="">-- Selecciona una ciudad --</option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <label for="id_parroquia"><b>Parroquia:</b></label>
+                    <select class="form-control" name ="id_parroquia" id="cbx_parroquia" required>
+                        <option value ="">-- Selecciona una parroquia --</option>
                     </select>
                 </div>
             </div>
@@ -157,3 +181,52 @@ if (isset($_SESSION['User'])) {
     require_once('views/SitiosHistoricos/listarsitioshistoricos.php');
 }
 ?>
+
+<script>
+    const ciudades = <?= json_encode($ciudades_agrupados) ?>;
+
+    function cargarDatos() {
+        cargarCiudades();
+        cargarParroquias();
+    }
+
+    function cargarCiudades() {
+
+      const estadoId = document.getElementById("cbx_estado").value;
+
+      // Cargar ciudades
+      const ciudadSelect = document.getElementById("cbx_ciudad");
+      ciudadSelect.innerHTML = '<option value="">-- Selecciona una ciudad --</option>';
+      if(ciudades[estadoId]) {
+        ciudades[estadoId].forEach(c => {
+            const option = document.createElement("option");
+            option.value = c.Cod_Ciudad;
+            option.textContent = c.Des_Ciudad;
+            ciudadSelect.appendChild(option);
+        });
+      }
+    }
+
+
+    function cargarParroquias() {
+        const estadoId = document.getElementById("cbx_estado").value;
+        const ciudadId = document.getElementById("cbx_ciudad").value;
+
+        // Llamada AJAX para obtener las parroquias
+        fetch(`index.php?accion=buscar_parroquias&cod_estado=${estadoId}`)
+            .then(response => response.json())
+            .then(data => {
+                const parroquiaSelect = document.getElementById("cbx_parroquia");
+                parroquiaSelect.innerHTML = '<option value="">-- Selecciona una parroquia --</option>';
+                data.forEach(parroquia => {
+                    const option = document.createElement("option");
+                    option.value = parroquia.Cod_Parroquia;
+                    option.textContent = parroquia.Des_Parroquia;
+                    parroquiaSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error al cargar las parroquias:', error));
+    }
+
+
+  </script>
