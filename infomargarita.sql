@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 07-07-2025 a las 01:05:24
+-- Tiempo de generación: 13-07-2025 a las 15:28:30
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.3.14
 
@@ -2151,8 +2151,8 @@ CREATE TABLE IF NOT EXISTS `tbl_sitioshistoricos` (
   `imagen` varchar(255) NOT NULL,
   `CodCiudad` int NOT NULL,
   `CodParroquia` int NOT NULL,
-  UNIQUE KEY `Nombre_Sitio` (`Nombre_Sitio`),
   PRIMARY KEY (`id_SitiosHistoricos`),
+  UNIQUE KEY `Nombre_Sitio` (`Nombre_Sitio`),
   KEY `CodCiudad` (`CodCiudad`),
   KEY `CodParroquia` (`CodParroquia`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -2162,7 +2162,8 @@ CREATE TABLE IF NOT EXISTS `tbl_sitioshistoricos` (
 --
 
 INSERT INTO `tbl_sitioshistoricos` (`id_SitiosHistoricos`, `Nombre_Sitio`, `fecha_creacion`, `Historia`, `imagen`, `CodCiudad`, `CodParroquia`) VALUES
-(1, 'Castillo San Carlos de Borromeo', '1684-01-01', 'El Castillo San Carlos de Borromeo es una fortaleza colonial ubicada en la Bahía de Pampatar, en la Isla Margarita, Venezuela. Fue construida para proteger la zona de los ataques de piratas y corsarios. Se completó en 1684, después de haber sido destruida y reconstruida. Hoy en día, funciona como museo y es un importante atractivo turístico. ', '', 330, 709);
+(1, 'Castillo San Carlos de Borromeo', '1684-01-01', 'El Castillo San Carlos de Borromeo es una fortaleza colonial ubicada en la Bahía de Pampatar, en la Isla Margarita, Venezuela. Fue construida para proteger la zona de los ataques de piratas y corsarios. Se completó en 1684, después de haber sido destruida y reconstruida. Hoy en día, funciona como museo y es un importante atractivo turístico. ', '', 330, 709),
+(2, 'Fortin de La Galera', '2025-07-06', 'Esta en Juan Griego ', '', 327, 721);
 
 -- --------------------------------------------------------
 
@@ -2170,16 +2171,22 @@ INSERT INTO `tbl_sitioshistoricos` (`id_SitiosHistoricos`, `Nombre_Sitio`, `fech
 -- Estructura de tabla para la tabla `tbl_tarifariosh`
 --
 
-
 CREATE TABLE IF NOT EXISTS `tbl_tarifariosh` (
   `id_tarifariosh` int NOT NULL AUTO_INCREMENT,
-  `descripciontf` varchar(100) NOT NULL,
+  `descripciontf` text NOT NULL,
   `Montotf` int NOT NULL,
   `id_Sitiohistorico` int NOT NULL,
-  UNIQUE KEY `descripciontf` (`descripciontf`),
   PRIMARY KEY (`id_tarifariosh`),
   KEY `id_Sitiohistorico` (`id_Sitiohistorico`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `tbl_tarifariosh`
+--
+
+INSERT INTO `tbl_tarifariosh` (`id_tarifariosh`, `descripciontf`, `Montotf`, `id_Sitiohistorico`) VALUES
+(1, 'Entrada de niños al Fortin', 100, 2),
+(2, 'Entrada de niños al Fortin', 100, 2);
 
 --
 -- Restricciones para tablas volcadas
