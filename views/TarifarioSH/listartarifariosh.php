@@ -30,9 +30,9 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Sitio Histórico</th>
                 <th>Tarifario</th>
                 <th>Monto Bs.</th>
-                <th>Sitio Histórico</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -44,9 +44,9 @@
                 ?>
                 <tr>
                     <td><?php echo $row['id_tarifariosh']; ?></td>
+                    <td><?php echo $row['Nombre_Sitio']; ?></td>
                     <td><?php echo $row['descripciontf']; ?></td>
                     <td><?php echo $row['Montotf']; ?> Bs</td>
-                    <td><?php echo $row['Nombre_Sitio']; ?></td>
                     <td align= "center" width="50px">
                         <form action="<?php echo SERVERURL?>TarifarioSH/ActualizarTarifa/<?php echo $row['id_tarifariosh']; ?>" method="POST" style="display:inline;">
                              <button type="submit" class="btn btn-sm btn-success">Editar</button>

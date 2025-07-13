@@ -226,12 +226,17 @@ if (isset($_SESSION['User'])) {
     if(id_estado.length == 0) {
         id_estado = "<?php 
                 $ciudad = CiudadesController::BuscarCiudadById($id_ciudad);
-                $numrows = mysqli_num_rows($ciudad);
-                if ($numrows != 0) {
-                    $numrows = mysqli_fetch_array($ciudad);
-                    echo $numrows['Cod_Estado'];
-                }   
+                if($ciudad) {
+                    $numrows = mysqli_num_rows($ciudad);
+                    if ($numrows != 0) {
+                        $numrows = mysqli_fetch_array($ciudad);
+                        echo $numrows['Cod_Estado'];
+                    }   
+                }
             ?>"
+    }
+
+    if(id_estado.length > 0) {
         const estadoId = document.getElementById("cbx_estado");
         estadoId.selectedIndex = id_estado;
     }
@@ -239,11 +244,13 @@ if (isset($_SESSION['User'])) {
     if(id_municipio == 0) {
         id_municipio = "<?php 
                 $parroquia = ParroquiasController::BuscarParroquiaById($id_parroquia);
-                $numrows = mysqli_num_rows($parroquia);
-                if ($numrows != 0) {
-                    $numrows = mysqli_fetch_array($parroquia);
-                    echo $numrows['Cod_Municipio'];
-                } 
+                if($parroquia) {
+                    $numrows = mysqli_num_rows($parroquia);
+                    if ($numrows != 0) {
+                        $numrows = mysqli_fetch_array($parroquia);
+                        echo $numrows['Cod_Municipio'];
+                    } 
+                }
             ?>"
     }
 
