@@ -31,6 +31,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
+                <th>Imagén</th>
                 <th>Fecha</th>
                 <th>Historia</th>
                 <th>Parroquia</th>
@@ -47,6 +48,12 @@
                 <tr>
                     <td><?php echo $row['id_SitiosHistoricos']; ?></td>
                     <td><?php echo $row['Nombre_Sitio']; ?></td>
+                    <td>
+                        <?php if (!empty($row['imagen'])) { ?>
+                            <img src="<?php echo SERVERURL . $row['imagen']; ?>" alt="Imagen del Sitio" style="width: 100px; height: auto;">
+                        <?php } else { ?>
+                            <span>No disponible</span>
+                        <?php } ?>
                     <td><?php echo $row['fecha_creacion']; ?></td>
                     <td><?php echo $row['Historia']; ?></td>
                     <td><?php echo $row['Des_Parroquia']; ?></td>

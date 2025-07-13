@@ -13,17 +13,6 @@
         echo json_encode($parroquias);
         exit; // 👈 Esto es clave: evita que se siga ejecutando el HTML
     }
-} else if (isset($_GET['accion']) && $_GET['accion'] === 'buscar_municipios') {
-    require_once('controllers/MunicipiosController.php');
-
-    $cod_estado = $_GET['cod_estado'] ?? null;
-
-    if ($cod_estado) {
-        $municipios = MunicipiosController::BuscarMunicipiosByEstado($cod_estado);
-        header('Content-Type: application/json');
-        echo json_encode($municipios);
-        exit; // 👈 Esto evita que se imprima el resto del HTML
-    }
 }
 
 if (isset($_SESSION['User'])) { 
@@ -143,7 +132,7 @@ if (isset($_SESSION['User'])) {
 ?>
 
 <div class="page-content">
-    <form action="<?php echo $direccionamiento;?>" method="POST">
+    <form action="<?php echo $direccionamiento;?>" method="POST" enctype="multipart/form-data">
         <div class="alert" style="background-color: #F9F9F9">
             <br><br>
             <div class="row">
@@ -198,12 +187,20 @@ if (isset($_SESSION['User'])) {
                         <option value ="">-- Selecciona un estado primero --</option>
                     </select>
                 </div>
+                
+                    
+                <div class="col-sm-8">
+                    <label class="col-sm-2 control-label">Archivos</label>
+                    <input type="file" class="form-control" id="fileToUpload" name="fileToUpload" <?php if ($TipoOperacion == "Ingresar" || $TipoOperacion == "Actualizar") echo "required"; ?>  >
+                </div>
 
             </div>
+            
             <br><br>
-            <button class="btn btn-outline-success" type="submit"><?php echo $TipoOperacion?></button>
+            <button name="submit" class="btn btn-outline-success" type="submit"><?php echo $TipoOperacion?></button>
         </div>
     </form>
+
 </div>
 
 <?php

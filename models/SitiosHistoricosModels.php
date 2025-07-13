@@ -109,8 +109,8 @@ class SitiosHistoricosModels
   		return $result_SitiosHistoricos;
 	}
 
-	public static function ActualizarSitioHistorico2 ($id_SitiosHistoricos, $nombre_sitio, $fecha_sitio, $Historia_Sitio, $imagen,$id_parroquia, $id_ciudad){
-		$sql_SitiosHistoricos= "UPDATE tbl_sitioshistoricos SET Nombre_Sitio = '$nombre_sitio', fecha_creacion = '$fecha_sitio', Historia = '$Historia_Sitio', imagen = '$imagen',CodCiudad = $id_ciudad, CodParroquia = $id_parroquia  WHERE id_SitiosHistoricos = $id_SitiosHistoricos";
+	public static function ActualizarSitioHistorico2 ($id_SitiosHistoricos, $nombre_sitio, $fecha_sitio, $Historia_Sitio, $imagen, $id_parroquia, $id_ciudad){
+		$sql_SitiosHistoricos= "UPDATE tbl_sitioshistoricos SET Nombre_Sitio = '$nombre_sitio', fecha_creacion = '$fecha_sitio', Historia = '$Historia_Sitio', imagen = '$imagen', CodCiudad = $id_ciudad, CodParroquia = $id_parroquia  WHERE id_SitiosHistoricos = $id_SitiosHistoricos";
 		$result_SitiosHistoricos = SitiosHistoricosModels::Update_Data($sql_SitiosHistoricos);
   		return $result_SitiosHistoricos;
 	}
