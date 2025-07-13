@@ -2141,16 +2141,17 @@ INSERT INTO `tbl_parroquia` (`Cod_Parroquia`, `Cod_Municipio`, `Des_Parroquia`) 
 --
 -- Estructura de tabla para la tabla `tbl_sitioshistoricos`
 --
-
+DROP TABLE IF EXISTS `tbl_tarifariosh`;
 DROP TABLE IF EXISTS `tbl_sitioshistoricos`;
 CREATE TABLE IF NOT EXISTS `tbl_sitioshistoricos` (
   `id_SitiosHistoricos` int NOT NULL AUTO_INCREMENT,
-  `Nombre_Sitio` text CHARACTER SET utf16 COLLATE utf16_spanish_ci NOT NULL,
+  `Nombre_Sitio` varchar(100) CHARACTER SET utf16 COLLATE utf16_spanish_ci NOT NULL,
   `fecha_creacion` date NOT NULL,
   `Historia` text CHARACTER SET utf16 COLLATE utf16_spanish_ci NOT NULL,
   `imagen` varchar(255) NOT NULL,
   `CodCiudad` int NOT NULL,
   `CodParroquia` int NOT NULL,
+  UNIQUE KEY `Nombre_Sitio` (`Nombre_Sitio`),
   PRIMARY KEY (`id_SitiosHistoricos`),
   KEY `CodCiudad` (`CodCiudad`),
   KEY `CodParroquia` (`CodParroquia`)
@@ -2169,12 +2170,13 @@ INSERT INTO `tbl_sitioshistoricos` (`id_SitiosHistoricos`, `Nombre_Sitio`, `fech
 -- Estructura de tabla para la tabla `tbl_tarifariosh`
 --
 
-DROP TABLE IF EXISTS `tbl_tarifariosh`;
+
 CREATE TABLE IF NOT EXISTS `tbl_tarifariosh` (
   `id_tarifariosh` int NOT NULL AUTO_INCREMENT,
-  `descripciontf` text NOT NULL,
+  `descripciontf` varchar(100) NOT NULL,
   `Montotf` int NOT NULL,
   `id_Sitiohistorico` int NOT NULL,
+  UNIQUE KEY `descripciontf` (`descripciontf`),
   PRIMARY KEY (`id_tarifariosh`),
   KEY `id_Sitiohistorico` (`id_Sitiohistorico`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

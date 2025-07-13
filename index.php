@@ -13,7 +13,7 @@ if (isset($_GET['accion']) && $_GET['accion'] === 'buscar_parroquias') {
         echo json_encode($parroquias);
         exit; // 👈 Esto evita que se imprima el resto del HTML
     }
-}
+} 
   // Este es el primer archivo visible que se inicia cuando se abre el proyecto desde el navegador.
 
   // Esta seccion borra e inicia cierta variable de sesión, dado que el control de acceso a usuarios lo suprimí para la práctica

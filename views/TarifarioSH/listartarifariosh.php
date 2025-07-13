@@ -26,7 +26,7 @@
 <br> <br>
 
 <div class="table-responsive">
-    <table class="table table-bordered">
+    <table id="dtBasicExample" class="table table-bordered">
         <thead>
             <tr>
                 <th>ID</th>

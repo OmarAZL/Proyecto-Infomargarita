@@ -13,6 +13,17 @@
         echo json_encode($parroquias);
         exit; // 👈 Esto es clave: evita que se siga ejecutando el HTML
     }
+} else if (isset($_GET['accion']) && $_GET['accion'] === 'buscar_municipios') {
+    require_once('controllers/MunicipiosController.php');
+
+    $cod_estado = $_GET['cod_estado'] ?? null;
+
+    if ($cod_estado) {
+        $municipios = MunicipiosController::BuscarMunicipiosByEstado($cod_estado);
+        header('Content-Type: application/json');
+        echo json_encode($municipios);
+        exit; // 👈 Esto evita que se imprima el resto del HTML
+    }
 }
 
 if (isset($_SESSION['User'])) { 
@@ -27,6 +38,7 @@ if (isset($_SESSION['User'])) {
     $id_parroquia = "";
     $id_ciudad = "";
     $id_estado = "";
+    $id_municipio = "";
     $TipoOperacion = "";
     $direccionamiento = "";
 
@@ -78,6 +90,7 @@ if (isset($_SESSION['User'])) {
             $id_estado = $_POST['id_estado'];
             $id_parroquia = $_POST['id_parroquia'];
             $id_ciudad = $_POST['id_ciudad'];
+            $id_municipio = $_POST['id_municipio'];
        }
   
       if ($action == "IngresarSitioHistorico1") { // Cuando el error ocurrion cuando ingresaba
@@ -111,14 +124,21 @@ if (isset($_SESSION['User'])) {
     require_once('controllers/CiudadesController.php');
     require_once('controllers/EstadosController.php');
     require_once('controllers/ParroquiasController.php');
+    require_once('controllers/MunicipiosController.php');
     $ciudades = CiudadesController::ListarCiudades1();
     $estados = EstadosController::ListarEstados1();
+    $parroquias = ParroquiasController::ListarParroquias1();
+    $municipios = MunicipiosController::ListarMunicipios1();
 
     $ciudades_agrupados = [];
     while ($row = $ciudades->fetch_assoc()) {
         $ciudades_agrupados[$row['Cod_Estado']][] = $row;
     }
 
+    $municipios_agrupadas = [];
+    while($row = $municipios->fetch_assoc()) {
+        $municipios_agrupadas[$row['Cod_Estado']][] = $row;
+    }
 
 ?>
 
@@ -157,18 +177,28 @@ if (isset($_SESSION['User'])) {
                         ?>
                     </select>
                 </div>
+
                 <div class="col-4">
-                    <label for="id_ciudad"><b>Ciudad:</b></label>
-                    <select class="form-control" name ="id_ciudad" id="cbx_ciudad" required>
-                        <option value ="">-- Selecciona una ciudad --</option>
+                    <label for="id_municipio"><b>Municipio:</b></label>
+                    <select class="form-control" name ="id_municipio" id="cbx_municipio" required>
+                        <option value="">-- Selecciona un estado primero --</option>
                     </select>
                 </div>
+
                 <div class="col-4">
                     <label for="id_parroquia"><b>Parroquia:</b></label>
                     <select class="form-control" name ="id_parroquia" id="cbx_parroquia" required>
-                        <option value ="">-- Selecciona una parroquia --</option>
+                        <option value ="">-- Selecciona un estado primero --</option>
                     </select>
                 </div>
+
+                <div class="col-4">
+                    <label for="id_ciudad"><b>Ciudad:</b></label>
+                    <select class="form-control" name ="id_ciudad" id="cbx_ciudad" required>
+                        <option value ="">-- Selecciona un estado primero --</option>
+                    </select>
+                </div>
+
             </div>
             <br><br>
             <button class="btn btn-outline-success" type="submit"><?php echo $TipoOperacion?></button>
@@ -184,10 +214,72 @@ if (isset($_SESSION['User'])) {
 
 <script>
     const ciudades = <?= json_encode($ciudades_agrupados) ?>;
+    const municipios = <?= json_encode($municipios_agrupadas) ?>;
+
+    let id_estado = "<?php echo $id_estado; ?>";
+    let id_municipio = "<?php echo $id_municipio; ?>";
+    const id_parroquia = "<?php echo $id_parroquia; ?>";
+    const id_ciudad = "<?php echo $id_ciudad; ?>";
+    
+    console.log(ciudades);
+
+    if(id_estado.length == 0) {
+        id_estado = "<?php 
+                $ciudad = CiudadesController::BuscarCiudadById($id_ciudad);
+                $numrows = mysqli_num_rows($ciudad);
+                if ($numrows != 0) {
+                    $numrows = mysqli_fetch_array($ciudad);
+                    echo $numrows['Cod_Estado'];
+                }   
+            ?>"
+        const estadoId = document.getElementById("cbx_estado");
+        estadoId.selectedIndex = id_estado;
+    }
+
+    if(id_municipio == 0) {
+        id_municipio = "<?php 
+                $parroquia = ParroquiasController::BuscarParroquiaById($id_parroquia);
+                $numrows = mysqli_num_rows($parroquia);
+                if ($numrows != 0) {
+                    $numrows = mysqli_fetch_array($parroquia);
+                    echo $numrows['Cod_Municipio'];
+                } 
+            ?>"
+    }
+
+    console.log(id_estado);
+        console.log(id_municipio);
+        console.log(id_parroquia);
+        console.log(id_ciudad);
+
+    cargarDatos();
 
     function cargarDatos() {
         cargarCiudades();
+        cargarMunicipios();
         cargarParroquias();
+    }
+
+    function cargarMunicipios() {
+        const estadoId = document.getElementById("cbx_estado").value;
+        if(estadoId.length == 0 && id_estado.length > 0) {
+            estadoId = id_estado;
+        }
+        const municipioSelect = document.getElementById("cbx_municipio");
+        municipioSelect.innerHTML = '<option value="">-- Selecciona un municipio --</option>';
+
+        if(municipios[estadoId]) {
+            municipios[estadoId].forEach(mun => {
+                const option = document.createElement("option");
+                option.value = mun.Cod_Municipio;
+                option.textContent = mun.Des_Municipio;
+                if(mun.Cod_Municipio == id_municipio) {
+                    option.selected = true; 
+                }
+                municipioSelect.appendChild(option);
+            })
+        }
+
     }
 
     function cargarCiudades() {
@@ -202,26 +294,34 @@ if (isset($_SESSION['User'])) {
             const option = document.createElement("option");
             option.value = c.Cod_Ciudad;
             option.textContent = c.Des_Ciudad;
+            if(c.Cod_Ciudad == id_ciudad) {
+                option.selected = true;
+            }
             ciudadSelect.appendChild(option);
         });
       }
+
     }
 
 
     function cargarParroquias() {
         const estadoId = document.getElementById("cbx_estado").value;
-        const ciudadId = document.getElementById("cbx_ciudad").value;
+        if(estadoId.length == 0 && id_estado.length > 0) {
+            estadoId = id_estado;
+        }
+        const parroquiaSelect = document.getElementById("cbx_parroquia");
 
         // Llamada AJAX para obtener las parroquias
         fetch(`index.php?accion=buscar_parroquias&cod_estado=${estadoId}`)
             .then(response => response.json())
             .then(data => {
-                const parroquiaSelect = document.getElementById("cbx_parroquia");
                 parroquiaSelect.innerHTML = '<option value="">-- Selecciona una parroquia --</option>';
                 data.forEach(parroquia => {
                     const option = document.createElement("option");
                     option.value = parroquia.Cod_Parroquia;
                     option.textContent = parroquia.Des_Parroquia;
+                    if(parroquia.Cod_Parroquia == id_parroquia)
+                    option.selected = true;
                     parroquiaSelect.appendChild(option);
                 });
             })
