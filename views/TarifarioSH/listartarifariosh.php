@@ -23,7 +23,7 @@
           </div>  
 </div>
 
-<br> <br>
+<br><br>
 
 <div class="table-responsive">
     <table id="dtBasicExample" class="table table-bordered">
