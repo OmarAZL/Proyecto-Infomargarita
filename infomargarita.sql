@@ -2173,11 +2173,12 @@ INSERT INTO `tbl_sitioshistoricos` (`id_SitiosHistoricos`, `Nombre_Sitio`, `fech
 
 CREATE TABLE IF NOT EXISTS `tbl_tarifariosh` (
   `id_tarifariosh` int NOT NULL AUTO_INCREMENT,
-  `descripciontf` text NOT NULL,
+  `descripciontf` varchar(255) NOT NULL,
   `Montotf` int NOT NULL,
   `id_Sitiohistorico` int NOT NULL,
   PRIMARY KEY (`id_tarifariosh`),
-  KEY `id_Sitiohistorico` (`id_Sitiohistorico`)
+  KEY `id_Sitiohistorico` (`id_Sitiohistorico`),
+  UNIQUE (`descripciontf`, `id_Sitiohistorico`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -2185,8 +2186,7 @@ CREATE TABLE IF NOT EXISTS `tbl_tarifariosh` (
 --
 
 INSERT INTO `tbl_tarifariosh` (`id_tarifariosh`, `descripciontf`, `Montotf`, `id_Sitiohistorico`) VALUES
-(1, 'Entrada de niños al Fortin', 100, 2),
-(2, 'Entrada de niños al Fortin', 100, 2);
+(1, 'Entrada de niños al Fortin', 100, 2);
 
 --
 -- Restricciones para tablas volcadas

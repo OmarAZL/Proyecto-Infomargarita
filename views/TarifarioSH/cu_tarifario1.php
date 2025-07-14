@@ -14,9 +14,9 @@ if (isset($_SESSION['User']) == 1)
     $controller= new TarifarioSHController();
 
     if ($action == "IngresarTarifa1") {
-        $result_Tarifario= $controller->IngresarTarifa2($id_tarifariosh, $tarifario, $monto, $id_sitiohistorico);
+        $result_Tarifario= $controller->IngresarTarifa2($id_tarifariosh, trim($tarifario), $monto, $id_sitiohistorico);
     }elseif ($action == "ActualizarTarifa1") {
-        $result_Tarifario= $controller->ActualizarTarifa2($id_tarifariosh, $tarifario, $monto, $id_sitiohistorico);
+        $result_Tarifario= $controller->ActualizarTarifa2($id_tarifariosh, trim($tarifario), $monto, $id_sitiohistorico);
     }elseif ($action == "BorrarTarifa1") {
         $result_Tarifario= $controller->BorrarTarifa2($id_tarifariosh);
     }

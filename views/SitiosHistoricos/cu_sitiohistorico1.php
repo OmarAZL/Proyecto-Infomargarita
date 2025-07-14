@@ -80,9 +80,9 @@ if (isset($_SESSION['User']) == 1)
     echo "<script>console.log('Action: $image_path');</script>";
 
     if ($action == "IngresarSitioHistorico1") {
-        $result_Sitio = $controller->IngresarSitioHistorico2($id_sitiohistorico, $nombre_sitio, $fecha_sitio, $historia_sitio, $image_path, $id_parroquia, $id_ciudad);
+        $result_Sitio = $controller->IngresarSitioHistorico2($id_sitiohistorico, trim($nombre_sitio), $fecha_sitio, trim($historia_sitio), $image_path, $id_parroquia, $id_ciudad);
     } elseif ($action == "ActualizarSitioHistorico1") {
-        $result_Sitio = $controller->ActualizarSitioHistorico2($id_sitiohistorico, $nombre_sitio, $fecha_sitio, $historia_sitio, $image_path, $id_parroquia, $id_ciudad);
+        $result_Sitio = $controller->ActualizarSitioHistorico2($id_sitiohistorico, trim($nombre_sitio), $fecha_sitio, trim($historia_sitio), $image_path, $id_parroquia, $id_ciudad);
     } elseif ($action == "BorrarSitioHistorico1") {
         $result_Sitio = $controller->BorrarSitioHistorico2($id_sitiohistorico);
     }
